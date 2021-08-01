@@ -1,3 +1,5 @@
+[![.NET](https://github.com/aimenux/DistributedMemoryCacheDemo/actions/workflows/ci.yml/badge.svg)](https://github.com/aimenux/DistributedMemoryCacheDemo/actions/workflows/ci.yml)
+
 # DistributedMemoryCacheDemo
 ```
 Using distributed memory cache in web api applications
