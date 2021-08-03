@@ -5,20 +5,19 @@
 Using distributed memory cache in web api applications
 ```
 
-> In this repo, i m providing a web api sample with :
+> In this repo, i m using a [distributed memory cache](https://docs.microsoft.com/en-us/aspnet/core/performance/caching/distributed?view=aspnetcore-5.0#distributed-memory-cache) in order to improve web api responsiveness.
 >
-> :zap: a service to compute content length for a website
+> Distributed memory cache is useful for development and testing scenarios and is not intended for production environements.
 >
-> :zap: an exception filter to handle some exceptions as bad requests
+> The web api sample provided in this repo is based on :
 >
-> :zap: a validation attribute to validate route parameters
+> - a distributed memory cache in order to save/load cached websites
 >
-> :zap: a configurable distributed memory cache in order to :
->>
->> :writing_hand: Get computed info about a website
->>
->> :writing_hand: Save computed info about a website
+> - a service to compute content length for a white listed website
 >
+> - an exception filter to handle some exceptions as bad requests
+>
+> - a validation attribute to validate route parameters
 >
 
 **`Tools`** : vs19, net 5.0, serilog, distributed memory cache
