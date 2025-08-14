@@ -7,7 +7,7 @@ Using distributed memory cache in web api applications
 
 > In this repo, i m using a [distributed memory cache](https://docs.microsoft.com/en-us/aspnet/core/performance/caching/distributed?view=aspnetcore-5.0#distributed-memory-cache) in order to improve web api responsiveness.
 >
-> Distributed memory cache is useful for development and testing scenarios and is not intended for production environements.
+> 📢 Distributed memory cache is useful for development and testing scenarios and is not intended for production environements. 📢
 >
 > The web api sample provided in this repo is based on :
 >
