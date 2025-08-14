@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace Domain.Configuration
+namespace Domain.Configuration;
+
+public class Settings
 {
-    public class Settings
-    {
-        public ICollection<string> BlacklistUrls { get; set; }
-    }
+    public ICollection<string> BlacklistUrls { get; set; }
 }

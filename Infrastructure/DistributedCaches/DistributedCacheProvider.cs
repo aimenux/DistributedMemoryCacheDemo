@@ -2,63 +2,63 @@
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using Domain.Abstractions;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace Infrastructure.DistributedCaches
+namespace Infrastructure.DistributedCaches;
+
+public class DistributedCacheProvider : IDistributedCacheProvider
 {
-    public class DistributedCacheProvider : IDistributedCacheProvider
+    private readonly IDistributedCache _cache;
+    private readonly IOptions<DistributedCacheOptions> _options;
+    private readonly ILogger<DistributedCacheProvider> _logger;
+
+    public DistributedCacheProvider(IDistributedCache cache, IOptions<DistributedCacheOptions> options, ILogger<DistributedCacheProvider> logger)
     {
-        private readonly IDistributedCache _cache;
-        private readonly IOptions<DistributedCacheOptions> _options;
-        private readonly ILogger<DistributedCacheProvider> _logger;
+        _cache = cache;
+        _logger = logger;
+        _options = options;
+    }
 
-        public DistributedCacheProvider(IDistributedCache cache, IOptions<DistributedCacheOptions> options, ILogger<DistributedCacheProvider> logger)
+    public async Task<T> GetAsync<T>(string key, CancellationToken cancellationToken = default) where T : class
+    {
+        try
         {
-            _cache = cache;
-            _logger = logger;
-            _options = options;
+            var json = await _cache.GetStringAsync(key, cancellationToken) ?? "null";
+            var obj = JsonSerializer.Deserialize<T>(json);
+            return obj;
         }
-
-        public async Task<T> GetAsync<T>(string key, CancellationToken cancellationToken = default) where T : class
+        catch (Exception ex)
         {
-            try
-            {
-                var json = await _cache.GetStringAsync(key, cancellationToken) ?? "null";
-                var obj = JsonSerializer.Deserialize<T>(json);
-                return obj;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "An error has occurred on method '{method}'", nameof(GetAsync));
-                return default;
-            }
+            _logger.LogError(ex, "An error has occurred on method '{method}'", nameof(GetAsync));
+            return null;
         }
+    }
 
-        public async Task SetAsync<T>(string key, T obj, CancellationToken cancellationToken = default) where T : class
+    public async Task SetAsync<T>(string key, T obj, CancellationToken cancellationToken = default) where T : class
+    {
+        try
         {
-            try
-            {
-                var json = JsonSerializer.Serialize(obj);
-                var options = BuildDistributedCacheEntryOptions();
-                await _cache.SetStringAsync(key, json, options, cancellationToken);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "An error has occurred on method '{method}'", nameof(SetAsync));
-            }
+            var json = JsonSerializer.Serialize(obj);
+            var options = BuildDistributedCacheEntryOptions();
+            await _cache.SetStringAsync(key, json, options, cancellationToken);
         }
-
-        private DistributedCacheEntryOptions BuildDistributedCacheEntryOptions()
+        catch (Exception ex)
         {
-            var expirationInMinutes = _options.Value.ExpirationInMinutes;
-
-            return new DistributedCacheEntryOptions
-            {
-                SlidingExpiration = TimeSpan.FromMinutes(expirationInMinutes),
-                AbsoluteExpiration = DateTime.Now.AddMinutes(expirationInMinutes)
-            };
+            _logger.LogError(ex, "An error has occurred on method '{method}'", nameof(SetAsync));
         }
+    }
+
+    private DistributedCacheEntryOptions BuildDistributedCacheEntryOptions()
+    {
+        var expirationInMinutes = _options.Value.ExpirationInMinutes;
+
+        return new DistributedCacheEntryOptions
+        {
+            SlidingExpiration = TimeSpan.FromMinutes(expirationInMinutes),
+            AbsoluteExpiration = DateTime.Now.AddMinutes(expirationInMinutes)
+        };
     }
 }

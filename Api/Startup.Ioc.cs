@@ -1,32 +1,30 @@
+using Domain.Abstractions;
 using Domain.Configuration;
-using Domain.Ports;
 using Domain.Services;
 using Infrastructure.DistributedCaches;
 using Infrastructure.HttpClients;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Api
+namespace Api;
+
+public partial class Startup
 {
-    public partial class Startup
+    private void ConfigureIoc(IServiceCollection services)
     {
-        private void ConfigureIoc(IServiceCollection services)
-        {
-            services.AddScoped<DummyMessageHandler>();
+        services.AddScoped<DummyMessageHandler>();
 
-            services.AddScoped<IDummyService, DummyService>();
+        services.AddScoped<IDummyService, DummyService>();
 
-            services.AddHttpClient<IDummyClient, DummyClient>()
-                .AddHttpMessageHandler<DummyMessageHandler>();
+        services
+            .AddHttpClient<IDummyClient, DummyClient>()
+            .AddHttpMessageHandler<DummyMessageHandler>();
 
-            services.AddDistributedMemoryCache();
+        services.AddDistributedMemoryCache();
 
-            services.AddTransient<IDistributedCacheProvider, DistributedCacheProvider>();
+        services.AddSingleton<IDistributedCacheProvider, DistributedCacheProvider>();
 
-            services.AddSingleton<IWebSiteCacheProvider, WebSiteCacheProvider>();
+        services.Configure<Settings>(Configuration.GetSection(nameof(Settings)));
 
-            services.Configure<Settings>(Configuration.GetSection(nameof(Settings)));
-
-            services.Configure<DistributedCacheOptions>(Configuration.GetSection(nameof(DistributedCacheOptions)));
-        }
+        services.Configure<DistributedCacheOptions>(Configuration.GetSection(nameof(DistributedCacheOptions)));
     }
 }

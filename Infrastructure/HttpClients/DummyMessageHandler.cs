@@ -4,28 +4,27 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 
-namespace Infrastructure.HttpClients
+namespace Infrastructure.HttpClients;
+
+public class DummyMessageHandler : DelegatingHandler
 {
-    public class DummyMessageHandler : DelegatingHandler
+    private readonly ILogger<DummyMessageHandler> _logger;
+
+    public DummyMessageHandler(ILogger<DummyMessageHandler> logger)
     {
-        private readonly ILogger<DummyMessageHandler> _logger;
+        _logger = logger;
+    }
 
-        public DummyMessageHandler(ILogger<DummyMessageHandler> logger)
+    protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+    {
+        try
         {
-            _logger = logger;
+            return await base.SendAsync(request, cancellationToken);
         }
-
-        protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        catch (Exception ex)
         {
-            try
-            {
-                return await base.SendAsync(request, cancellationToken);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "An error has occurred on call to {url}", request.RequestUri);
-                throw;
-            }
+            _logger.LogError(ex, "An error has occurred on call to {url}", request.RequestUri);
+            throw;
         }
     }
 }

@@ -1,9 +1,8 @@
-﻿namespace Domain.Models
-{
-    public class WebSite
-    {
-        public string Url { get; set; }
+﻿namespace Domain.Models;
 
-        public int Length { get; set; }
-    }
+public class WebSite
+{
+    public string Url { get; set; }
+
+    public int Length { get; set; }
 }

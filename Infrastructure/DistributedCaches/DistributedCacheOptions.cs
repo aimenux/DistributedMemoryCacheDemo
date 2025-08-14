@@ -1,7 +1,6 @@
-﻿namespace Infrastructure.DistributedCaches
+﻿namespace Infrastructure.DistributedCaches;
+
+public class DistributedCacheOptions
 {
-    public class DistributedCacheOptions
-    {
-        public int ExpirationInMinutes { get; set; } = 2;
-    }
+    public int ExpirationInMinutes { get; set; } = 2;
 }
