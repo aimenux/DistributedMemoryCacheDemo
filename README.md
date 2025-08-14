@@ -20,4 +20,4 @@ Using distributed memory cache in web api applications
 > - a validation attribute to validate route parameters
 >
 
-**`Tools`** : net 9.0, serilog, distributed memory cache
+**`Tools`** : net 9.0, distributed memory cache
