@@ -5,9 +5,19 @@
 Using distributed cache in web api applications
 ```
 
-> In this repo, i m using a [distributed cache](https://learn.microsoft.com/en-us/aspnet/core/performance/caching/distributed) in order to improve web api responsiveness.
+> In this repo, i m using a [distributed cache](https://learn.microsoft.com/en-us/aspnet/core/performance/caching/distributed) to improve web api responsiveness.
 >
-> Distributed cache source can be configured to use :
+> The sample provided in this repo is based on :
+>
+> - a distributed cache to save/load cached websites
+>
+> - a service to compute content length for a white listed website
+>
+> - an exception filter to handle some exceptions as bad requests
+>
+> - a validation attribute to validate route parameters
+> 
+> The distributed cache can be configured (via appsettings.json file) to use :
 > - [memory cache](https://learn.microsoft.com/en-us/aspnet/core/performance/caching/distributed#distributed-memory-cache)
 > - [redis cache](https://learn.microsoft.com/en-us/aspnet/core/performance/caching/distributed#distributed-redis-cache)
 > - [sql server cache](https://learn.microsoft.com/en-us/aspnet/core/performance/caching/distributed#distributed-sql-server-cache)
@@ -27,18 +37,5 @@ Using distributed cache in web api applications
 > ```bash
 > dotnet sql-cache create "Server=localhost,1433;Database=CacheDatabase;User Id=sa;Password=@Pa5sw0rd!;TrustServerCertificate=True;" dbo CacheTable
 > ```
-
-> The web api sample provided in this repo is based on :
->
-> - a distributed cache in order to save/load cached websites
->
-> - a service to compute content length for a white listed website
->
-> - an exception filter to handle some exceptions as bad requests
->
-> - a validation attribute to validate route parameters
->
-
-> 📢 Distributed memory cache is useful for development and testing scenarios and is not intended for production environements. 📢
 
 **`Tools`** : net 9.0, distributed cache, serilog
