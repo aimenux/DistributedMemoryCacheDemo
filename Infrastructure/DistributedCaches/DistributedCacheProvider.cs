@@ -3,6 +3,7 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Domain.Abstractions;
+using Domain.Configuration;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -12,10 +13,10 @@ namespace Infrastructure.DistributedCaches;
 public class DistributedCacheProvider : IDistributedCacheProvider
 {
     private readonly IDistributedCache _cache;
-    private readonly IOptions<DistributedCacheOptions> _options;
+    private readonly IOptions<CacheSettings> _options;
     private readonly ILogger<DistributedCacheProvider> _logger;
 
-    public DistributedCacheProvider(IDistributedCache cache, IOptions<DistributedCacheOptions> options, ILogger<DistributedCacheProvider> logger)
+    public DistributedCacheProvider(IDistributedCache cache, IOptions<CacheSettings> options, ILogger<DistributedCacheProvider> logger)
     {
         _cache = cache;
         _logger = logger;

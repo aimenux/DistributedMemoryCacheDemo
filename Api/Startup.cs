@@ -21,7 +21,7 @@ public partial class Startup
     {
         services.AddControllers(options =>
         {
-            options.Filters.Add(typeof(ApiExceptionFilter));
+            options.Filters.Add<ApiExceptionFilter>();
         });
 
         ConfigureSwagger(services);

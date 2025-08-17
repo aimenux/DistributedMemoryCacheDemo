@@ -2,7 +2,11 @@
 
 namespace Domain.Configuration;
 
-public class Settings
+public sealed record Settings
 {
-    public ICollection<string> BlacklistUrls { get; set; }
+    public const string SectionName = "Settings";
+    
+    public ICollection<string> BlacklistUrls { get; init; }
+
+    public CacheSettings CacheSettings { get; init; }
 }
