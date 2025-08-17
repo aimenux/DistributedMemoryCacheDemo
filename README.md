@@ -17,7 +17,7 @@ Using distributed cache in web api applications
 >
 > - a validation attribute to validate route parameters
 > 
-> The distributed cache can be configured (via appsettings.json file) to use :
+> The distributed cache can be configured (via [appsettings.json file](Api/appsettings.json)) to use :
 > - [memory cache](https://learn.microsoft.com/en-us/aspnet/core/performance/caching/distributed#distributed-memory-cache)
 > - [redis cache](https://learn.microsoft.com/en-us/aspnet/core/performance/caching/distributed#distributed-redis-cache)
 > - [sql server cache](https://learn.microsoft.com/en-us/aspnet/core/performance/caching/distributed#distributed-sql-server-cache)
@@ -31,9 +31,9 @@ Using distributed cache in web api applications
 > ```bash
 > docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=@Pa5sw0rd!" -p 1433:1433 --name local-sqlserver -d mcr.microsoft.com/mssql/server:2022-latest
 > ```
-> Use the sql script `CreateDatabase.sql` in order to create the database `CacheDatabase`.
+> Use the sql script [`CreateDatabase.sql`](CreateDatabase.sql) in order to create the database `CacheDatabase`.
 > 
-> Use the global tool `dotnet-sql-cache` in order to create the table `CacheTable`.
+> Use the global tool [`dotnet-sql-cache`](https://www.nuget.org/packages/dotnet-sql-cache) in order to create the table `CacheTable`.
 > ```bash
 > dotnet sql-cache create "Server=localhost,1433;Database=CacheDatabase;User Id=sa;Password=@Pa5sw0rd!;TrustServerCertificate=True;" dbo CacheTable
 > ```
